@@ -1,8 +1,11 @@
 import React from 'react'
+import Link_Form from '@/components/Link_Box/Link_Form'
 
 function Home() {
   return (
-    <div>Home</div>
+    <>
+      <Link_Form></Link_Form>
+    </>
   )
 }
 

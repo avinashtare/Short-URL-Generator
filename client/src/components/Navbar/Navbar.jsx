@@ -38,7 +38,6 @@ const Navbar = () => {
       document.removeEventListener('click', handleClickOutside, true);
     }
 
-   console.log(location)
     return () => {
       document.removeEventListener('click', handleClickOutside, true);
     };
@@ -50,11 +49,11 @@ const Navbar = () => {
 
   return (
     <nav className="bg-white border-gray-200 dark:bg-gray-900 h-full">
-      <div className="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-4">
-        <a href="/" className="flex items-center space-x-3 rtl:space-x-reverse">
+      <div className="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-4 relative">
+        <Link to="/" className="flex items-center space-x-3 rtl:space-x-reverse">
           <img src={Logo} className="h-8" alt="Logo" />
           <span className="self-center text-2xl font-semibold whitespace-nowrap dark:text-white">Url Shorter</span>
-        </a>
+        </Link>
         <div className="flex items-center md:order-2 space-x-3 md:space-x-0 rtl:space-x-reverse">
           <button
             type="button"
@@ -69,7 +68,7 @@ const Navbar = () => {
           {/* Dropdown menu */}
           <div
             ref={dropdownRef}
-            className={`z-50 ${isDropdownOpen ? '' : 'hidden'} text-base list-none bg-white divide-y divide-gray-100 rounded-lg shadow dark:bg-gray-700 dark:divide-gray-600 absolute top-[60px]`}
+            className={`z-50 ${isDropdownOpen ? '' : 'hidden'} text-base list-none bg-white divide-y divide-gray-100 rounded-lg shadow dark:bg-gray-700 dark:divide-gray-600 absolute top-[60px] right-0`}
             id="user-dropdown"
           >
             <div className="px-4 py-3">
@@ -78,16 +77,16 @@ const Navbar = () => {
             </div>
             <ul className="py-2" aria-labelledby="user-menu-button">
               <li>
-                <a href="#" onClick={handleLinkClick} className="dropdown-menu-links">Dashboard</a>
+                <Link to="/" onClick={handleLinkClick} className="dropdown-menu-links">Dashboard</Link>
               </li>
               <li>
-                <a href="#" onClick={handleLinkClick} className="dropdown-menu-links">Settings</a>
+                <Link to="/" onClick={handleLinkClick} className="dropdown-menu-links">Settings</Link>
               </li>
               <li>
-                <a href="#" onClick={handleLinkClick} className="dropdown-menu-links">Earnings</a>
+                <Link to="/" onClick={handleLinkClick} className="dropdown-menu-links">Earnings</Link>
               </li>
               <li>
-                <a href="#" onClick={handleLinkClick} className="dropdown-menu-links">Sign out</a>
+                <Link to="/" onClick={handleLinkClick} className="dropdown-menu-links">Sign out</Link>
               </li>
             </ul>
           </div>
