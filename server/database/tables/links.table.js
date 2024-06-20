@@ -5,7 +5,8 @@ const createLinksTable = async () => {
         CREATE TABLE IF NOT EXISTS links (
             link_id INT AUTO_INCREMENT PRIMARY KEY,
             original_url TEXT NOT NULL,
-            shortened_url VARCHAR(255) NOT NULL,
+            shorted_url VARCHAR(255) NOT NULL,
+            url_uniq_id VARCHAR(255) NOT NULL UNIQUE,
             user_id INT,
             clicks_count INT DEFAULT 0,
             created_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
@@ -20,8 +21,8 @@ const createLinksTable = async () => {
     return is_links_created;
 }
 
-const createNewLink = async ({ user_id, original_url, shortened_url }) => {
-    const createNewLinkQeury = `INSERT INTO links (original_url, shortened_url, user_id) VALUES ('${original_url}', '${shortened_url}', ${user_id});`;
+const createNewLink = async ({ user_id, original_url, shorted_url, urlUniqId }) => {
+    const createNewLinkQeury = `INSERT INTO links (original_url, shorted_url, url_uniq_id, user_id) VALUES ('${original_url}', '${shorted_url}','${urlUniqId}', ${user_id});`;
 
     const is_link_created = await db_query(createNewLinkQeury);
 
@@ -45,11 +46,27 @@ const findLinksByUserId = async (user_id) => {
     return is_link_exist;
 }
 
+const findLinksByUniqId = async (urlUniqId) => {
+    const findLinksByUniqIdQuery = `SELECT * FROM links WHERE url_uniq_id=${urlUniqId};`;
 
-const findLinkByOriginalURL = async (original_url) => {
-    const findLinkByOriginalURLQuery = `SELECT * FROM links WHERE original_url='${original_url}';`;
+    const is_link_exist = await db_query(findLinksByUniqIdQuery);
 
-    const is_url_exist = await db_query(findLinkByOriginalURLQuery);
+    if (!is_link_exist) {
+        return false;
+    }
+    else if (is_link_exist?.results.length == 0) {
+        return false
+    }
+
+    return is_link_exist;
+}
+
+
+
+const findLinkByOriginalURLByUserId = async (original_url, user_id) => {
+    const findLinkByOriginalURLByUserIdQuery = `SELECT * FROM links WHERE user_id=${user_id} AND original_url='${original_url}';`;
+
+    const is_url_exist = await db_query(findLinkByOriginalURLByUserIdQuery);
 
     if (!is_url_exist) {
         return false;
@@ -60,8 +77,8 @@ const findLinkByOriginalURL = async (original_url) => {
     return is_url_exist;
 }
 
-const deleteLinkById = async (link_id) => {
-    const deleteLinkQuery = `DELETE FROM links WHERE link_id=${link_id};`
+const deleteLinkByUserId = async (user_id, link_id) => {
+    const deleteLinkQuery = `DELETE FROM links WHERE user_id=${user_id} AND link_id=${link_id};`
     const is_link_deleted = await db_query(deleteLinkQuery);
 
     if (!is_link_deleted) {
@@ -73,4 +90,4 @@ const deleteLinkById = async (link_id) => {
     return is_link_deleted;
 }
 
-module.exports = { createLinksTable, createNewLink, findLinksByUserId, findLinkByOriginalURL, deleteLinkById }
+module.exports = { createLinksTable, createNewLink, findLinksByUserId, findLinkByOriginalURLByUserId, deleteLinkByUserId, findLinksByUniqId }

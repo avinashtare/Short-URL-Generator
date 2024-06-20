@@ -7,13 +7,18 @@ require('dotenv').config()
 const { check_db_connection } = require("./database")
 const router = require("./routes")
 const json_error_handler = require("./middleware/json_error_handler")
+const cookieParser = require('cookie-parser')
+
 
 // enviroment variables 
 const PORT = process.env?.PORT ?? 5000
 const HOST = process.env?.HOST ?? "0.0.0.0"
 
+// parse cookie
+app.use(cookieParser())
+
 // allow json
-app.use(express.json({limit: "5mb"}),json_error_handler)
+app.use(express.json({limit: "1mb"}),json_error_handler);
 
 // all router 
 app.use("/", router)

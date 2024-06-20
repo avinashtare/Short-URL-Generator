@@ -61,7 +61,7 @@ const SignInUser = async (req, res) => {
 
         // first check error exist or not if exist throw error response
         if (!request_error.isEmpty()) {
-            return generateJsonResponse(res, 400, "Invalid Field", null, true, 400, request_error.errors);
+            return generateJsonResponse(res, "error", "Invalid Field", null, true, 400, request_error.errors);
         };
 
         // get data from body 
