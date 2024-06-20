@@ -5,8 +5,8 @@ const createUsersTable = async () => {
     const createUsersTableQuery = `
         CREATE TABLE IF NOT EXISTS users (
             user_id INT AUTO_INCREMENT PRIMARY KEY,
-            full_name VARCHAR(20) NOT NULL,
-            email_address VARCHAR(30) NOT NULL,
+            full_name VARCHAR(30) NOT NULL,
+            email_address VARCHAR(40) NOT NULL UNIQUE,
             password_hash VARCHAR(255) NOT NULL,
             account_created_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP
         );
@@ -19,7 +19,7 @@ const createUsersTable = async () => {
     return is_user_table_created;
 }
 
-const createUser = async ({ full_name, email, password }) => {
+const createUserDB = async ({ full_name, email, password }) => {
     const createUserQuery = `INSERT INTO users (full_name, email_address, password_hash) VALUES ('${full_name}', '${email}', '${password}');`;
     const is_user_created = await db_query(createUserQuery);
     if (!is_user_created) {
@@ -28,7 +28,7 @@ const createUser = async ({ full_name, email, password }) => {
     return is_user_created;
 }
 
-const findUserById = async (user_id) => {
+const findUserByIdDB = async (user_id) => {
     const findUserQuery = `SELECT * FROM users WHERE user_id=${user_id} LIMIT 1; `
     const is_user_exist = await db_query(findUserQuery);
 
@@ -41,7 +41,20 @@ const findUserById = async (user_id) => {
     return is_user_exist;
 }
 
-const deleteUserById = async (user_id) => {
+const findUserByEmailDB = async (email) => {
+    const findUserByEmailQuery = `SELECT * FROM users WHERE email_address='${email}' LIMIT 1; `
+    const is_user_exist = await db_query(findUserByEmailQuery);
+
+    if (!is_user_exist) {
+        return false;
+    }
+    else if (is_user_exist?.results.length == 0) {
+        return false
+    }
+    return is_user_exist;
+}
+
+const deleteUserByIdDB = async (user_id) => {
     const deleteUserQuery = `DELETE FROM users WHERE user_id=${user_id};`
     const is_user_deleted = await db_query(deleteUserQuery);
 
@@ -55,4 +68,4 @@ const deleteUserById = async (user_id) => {
 }
 
 
-module.exports = { createUsersTable, createUser, findUserById, deleteUserById }
+module.exports = { createUsersTable, createUserDB, findUserByIdDB, deleteUserByIdDB,findUserByEmailDB }
