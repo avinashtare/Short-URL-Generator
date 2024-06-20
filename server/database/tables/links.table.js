@@ -47,7 +47,7 @@ const findLinksByUserId = async (user_id) => {
 }
 
 const findLinksByUniqId = async (urlUniqId) => {
-    const findLinksByUniqIdQuery = `SELECT * FROM links WHERE url_uniq_id=${urlUniqId};`;
+    const findLinksByUniqIdQuery = `SELECT * FROM links WHERE url_uniq_id='${urlUniqId}';`;
 
     const is_link_exist = await db_query(findLinksByUniqIdQuery);
 
@@ -60,7 +60,6 @@ const findLinksByUniqId = async (urlUniqId) => {
 
     return is_link_exist;
 }
-
 
 
 const findLinkByOriginalURLByUserId = async (original_url, user_id) => {
@@ -77,6 +76,20 @@ const findLinkByOriginalURLByUserId = async (original_url, user_id) => {
     return is_url_exist;
 }
 
+const incrementLinksCount = async (link_id) => {
+    const incrementLinksCountQuery = `UPDATE links SET clicks_count = clicks_count + 1 WHERE link_id=${link_id};`
+    const is_count_updated = await db_query(incrementLinksCountQuery);
+
+    if (!is_count_updated) {
+        return false;
+    }
+    else if (is_count_updated?.results?.affectedRows == 0) {
+        return false;
+    }
+
+    return is_count_updated;
+}
+
 const deleteLinkByUserId = async (user_id, link_id) => {
     const deleteLinkQuery = `DELETE FROM links WHERE user_id=${user_id} AND link_id=${link_id};`
     const is_link_deleted = await db_query(deleteLinkQuery);
@@ -90,4 +103,4 @@ const deleteLinkByUserId = async (user_id, link_id) => {
     return is_link_deleted;
 }
 
-module.exports = { createLinksTable, createNewLink, findLinksByUserId, findLinkByOriginalURLByUserId, deleteLinkByUserId, findLinksByUniqId }
+module.exports = { createLinksTable, createNewLink, findLinksByUserId, findLinkByOriginalURLByUserId, deleteLinkByUserId, findLinksByUniqId,incrementLinksCount }

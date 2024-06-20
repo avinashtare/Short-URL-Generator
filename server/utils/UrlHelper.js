@@ -4,21 +4,28 @@ const isValidUrl = (urlString) => {
     // Regular expression to check for valid domain names
     const domainRegex = /^[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
 
-    // Add protocol if missing
-    let urlToTest = urlString;
+    // Ensure the URL starts with http:// or https://
     if (!/^https?:\/\//i.test(urlString)) {
-        urlToTest = 'http://' + urlString;
+        return false;
     }
 
-    // Validate the full URL
-    if (!validator.isURL(urlToTest, { protocols: ['http', 'https'], require_protocol: true })) {
+    // Validate the full URL using validator
+    if (!validator.isURL(urlString, { protocols: ['http', 'https'], require_protocol: true })) {
         return false;
     }
 
     // Extract the hostname to validate it separately
     try {
-        const parsedUrl = new URL(urlToTest);
-        return domainRegex.test(parsedUrl.hostname);
+        const parsedUrl = new URL(urlString);
+        // Check if the hostname is a valid domain name (excluding IP addresses)
+        if (!domainRegex.test(parsedUrl.hostname)) {
+            return false;
+        }
+        // Check if the hostname is an IP address
+        if (parsedUrl.hostname.match(/^(?:[0-9]{1,3}\.){3}[0-9]{1,3}$/)) {
+            return false;
+        }
+        return true;
     } catch (err) {
         return false;
     }
