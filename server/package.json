@@ -2,6 +2,7 @@
   "name": "server-short-url-generator",
   "version": "0.0.0",
   "scripts": {
+    "start": "node index.js",
     "dev": "nodemon index.js"
   },
   "dependencies": {
