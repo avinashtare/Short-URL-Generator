@@ -16,7 +16,7 @@ const validateUser = async (req, res, next) => {
 
         // check token exsit or not
         if (!token) {
-            return generateJsonResponse(res, "error", "invalid user", null, true, 400);
+            return generateJsonResponse(res, "error", "invalid user", {isValidUser: false}, true, 400);
         }
 
         // fetch data from token 
@@ -24,7 +24,7 @@ const validateUser = async (req, res, next) => {
 
         // check jwt user id exist or not 
         if (!jwtResponseUserId) {
-            return generateJsonResponse(res, "error", "invalid user", null, true, 400);
+            return generateJsonResponse(res, "error", "invalid user", {isValidUser: false}, true, 400);
         }
 
         // check user is exist on server or no
@@ -32,11 +32,16 @@ const validateUser = async (req, res, next) => {
 
         // check jwt user id exist or not 
         if (!userExist) {
-            return generateJsonResponse(res, "error", "invalid user", null, true, 400);
+            return generateJsonResponse(res, "error", "invalid user", {isValidUser: false}, true, 400);
         }
 
         // set user id in request prams 
         req.userId = jwtResponseUserId;
+
+        // check client checking user valid using params
+        if(req.url == "/is-valid-user"){
+            return generateJsonResponse(res,"success","valid is user",{isValidUser: true},false,200);
+        }
 
         // calling next function 
         next();
