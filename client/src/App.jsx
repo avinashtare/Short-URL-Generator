@@ -1,16 +1,16 @@
-import { useState } from 'react'
 import './App.css'
 import { BrowserRouter } from 'react-router-dom';
-import Routes from "@/routes.jsx"
-
+import Routes from "@/routes"
+import store from "@/redux/store"
+import { Provider } from "react-redux"
 
 function App() {
-  const [count, setCount] = useState(0)
-
   return (
-    <BrowserRouter>
-        <Routes/>
-    </BrowserRouter>
+    <Provider store={store}>
+      <BrowserRouter>
+        <Routes />
+      </BrowserRouter>
+    </Provider>
   )
 }
 

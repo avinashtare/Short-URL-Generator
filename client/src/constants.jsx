@@ -16,8 +16,8 @@ let Navlinks = [
         href: "/pricing"
     },
     {
-        name: "Sign In",
-        href: "/sign_in"
+        name: "Blog",
+        href: "/blog"
     }
 ]
 
