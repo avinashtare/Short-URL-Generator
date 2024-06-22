@@ -11,8 +11,9 @@ const { findIdByJwt } = require("../utils/jwtHandler");
 
 const validateUser = async (req, res, next) => {
     try {
-        // get token from cookie
-        const token = req.cookies?.token;
+        // get token from cookie or headers
+        let token = req.headers?.token;
+        if(!token) token = req.cookies?.token
 
         // check token exsit or not
         if (!token) {

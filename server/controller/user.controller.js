@@ -48,7 +48,7 @@ const CreateUser = async (req, res) => {
         }
 
         // send user response 
-        return generateJsonResponse(res, "success", "User registered successfully", { token: jwtToken }, false, 200);
+        return generateJsonResponse(res, "success", "User registered successfully",  jwtToken , false, 200);
 
     } catch (error) {
         return generateJsonResponse(res, "error", "An error occurred while processing the request", null, true, 500);
@@ -90,7 +90,7 @@ const SignInUser = async (req, res) => {
         const jwtToken = createJwtById(user_id);
 
         // send reponse with token
-        return generateJsonResponse(res, "success", "User sign in successfully", { token: jwtToken }, false, 200);
+        return generateJsonResponse(res, "success", "User sign in successfully", jwtToken , false, 200);
     } catch (error) {
         return generateJsonResponse(res, "error", "An error occurred while processing the request", null, true, 500);
     }

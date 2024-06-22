@@ -1,6 +1,7 @@
 // import packages
 const express = require("express")
 const app = express()
+const cors = require("cors")
 require('dotenv').config()
 
 // import files 
@@ -13,6 +14,9 @@ const cookieParser = require('cookie-parser')
 // enviroment variables 
 const PORT = process.env?.PORT ?? 5000
 const HOST = process.env?.HOST ?? "0.0.0.0"
+
+// allow cros
+app.use(cors())
 
 // parse cookie
 app.use(cookieParser())
