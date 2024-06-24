@@ -3,6 +3,38 @@ import { getCookie, setCookie } from "@/utils/cookies";
 
 const Server_Url = import.meta.env.VITE_Server_URL
 
+// signup user 
+export const signUpUser = createAsyncThunk("signUpUser", async ({ fullName, email, password }) => {
+    const requestBody = {
+        email: email,
+        password: password,
+        full_name: fullName
+    }
+
+    let signUpUserResponse = await fetch(`${Server_Url}/user/signup`, {
+        method: "post",
+        headers: {
+            "Content-Type": "application/json",
+        },
+        body: JSON.stringify(requestBody),
+    });
+
+    let signUpUserData = await signUpUserResponse.json();
+
+    let token = signUpUserData?.data?.token;
+
+    if (!signUpUserData?.error && token) {
+        setCookie("token", token)
+        return { isSignUp: true }
+    }
+    else {
+        // if email exist 
+        if (signUpUserData.status == "email exist") return { isSignUp: false, emailExist: true }
+        // if other error 
+        return { isSignUp: false }
+    }
+})
+
 // sign in user 
 export const signInUser = createAsyncThunk("signInUser", async ({ email, password }) => {
     const requestBody = {
@@ -24,12 +56,12 @@ export const signInUser = createAsyncThunk("signInUser", async ({ email, passwor
 
     if (!signInUserData?.error && token) {
         setCookie("token", token)
-        return true
+        return { isSignIn: true }
     }
     else {
-        throw Error();
+        return { isSignIn: false }
+
     }
-    return false
 })
 
 // check user valid or not 
