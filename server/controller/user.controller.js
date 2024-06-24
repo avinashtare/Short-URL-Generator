@@ -21,7 +21,7 @@ const CreateUser = async (req, res) => {
 
         // if email already exist handle the error 
         if (isEmailExist) {
-            return generateJsonResponse(res, "error", "Email address already exists", null, true, 400);
+            return generateJsonResponse(res, "email exist", "Email address already exists", null, true, 400);
         }
 
         // encrypt password
