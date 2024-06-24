@@ -5,12 +5,12 @@ import { signInUser } from '@/redux/user';
 import { toast } from 'react-toastify';
 
 const SignInForm = () => {
-    const [Email, setEmail] = useState("avinashtare545@gmail.com");
-    const [Password, setPassword] = useState("avinash123");
+    const [Email, setEmail] = useState("");
+    const [Password, setPassword] = useState("");
 
     const [ShowPassword, setShowPassword] = useState(false);
 
-    const navigate = useNavigate()
+    const navigate = useNavigate();
     const dispatch = useDispatch();
     const userState = useSelector(state => state.user.signIn);
 

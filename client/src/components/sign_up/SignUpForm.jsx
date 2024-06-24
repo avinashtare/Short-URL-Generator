@@ -12,10 +12,10 @@ function SignUpForm() {
     const navigate = useNavigate();
 
     // states 
-    const [FullName, setFullName] = useState("avinash")
-    const [Email, setEmail] = useState("avinash@gmail.com");
-    const [Password, setPassword] = useState("1111111111111111111");
-    const [ConfirmPassword, setConfirmPassword] = useState("1111111111111111111");
+    const [FullName, setFullName] = useState("")
+    const [Email, setEmail] = useState("");
+    const [Password, setPassword] = useState("");
+    const [ConfirmPassword, setConfirmPassword] = useState("");
     const [ShowPassword, setShowPassword] = useState(false);
 
     // refs 
