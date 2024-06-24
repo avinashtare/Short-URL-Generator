@@ -38,7 +38,7 @@ const createShortLink = async (req, res) => {
         const { shortedURL, uniqId } = getShortedURL(SHORTCUT_URL_DOMAIN, 12);
 
         // finally create new link
-        const storeLinkInDB = await createNewLink({ user_id: userId, original_url: url, shorted_url: shortedURL, urlUniqId: uniqId })
+        const storeLinkInDB = await createNewLink({ user_id: userId, original_url: originalUrl, shorted_url: shortedURL, urlUniqId: uniqId })
 
         // if link not created 
         if (!storeLinkInDB || storeLinkInDB?.results?.affectedRows != 1) {
