@@ -1,16 +1,17 @@
 import './App.css'
-import { BrowserRouter } from 'react-router-dom';
+import Navbar from '@/components/Navbar/Navbar';
 import Routes from "@/routes"
-import store from "@/redux/store"
-import { Provider } from "react-redux"
+import Fotter from '@/components/Fotter';
+import Toastify from '@/components/Toastify';
 
 function App() {
   return (
-    <Provider store={store}>
-      <BrowserRouter>
-        <Routes />
-      </BrowserRouter>
-    </Provider>
+    <>
+      <Navbar />
+      <Routes />
+      <Toastify />
+      <Fotter />
+    </>
   )
 }
 
