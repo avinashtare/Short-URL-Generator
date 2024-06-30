@@ -5,6 +5,7 @@ export const userSlice = createSlice({
   name: 'userSlice',
   initialState: {
     isValidUser: false,
+    userInfo: {},
     signIn: {
       Loading: false,
       Error: false,
@@ -16,7 +17,9 @@ export const userSlice = createSlice({
   },
   extraReducers: (builder) => {
     builder.addCase(validUser.fulfilled, (state, action) => {
-      state.isValidUser = action.payload.isValid;
+      const { isValid, info } = action.payload;
+      state.isValidUser = isValid;
+      state.userInfo = info;
     }).addCase(validUser.rejected, (state, action) => {
       state.isValidUser = false;
     });

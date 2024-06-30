@@ -82,7 +82,9 @@ export const validUser = createAsyncThunk("validUserAPI", async () => {
     validUserResponse = await validUserResponse.json();
 
     if (validUserResponse?.data?.isValidUser) {
-        return { isValid: true };
+        const { fullName, email } = validUserResponse.data;
+        const moreInfo = { fullName, email };
+        return { isValid: true, info: moreInfo };
     }
     return { isValid: false };
 });

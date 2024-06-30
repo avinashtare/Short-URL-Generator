@@ -1,9 +1,9 @@
 import React, { useState, useEffect, useRef, useSyncExternalStore } from 'react';
 import Logo from "@/assets/logo.png";
 import "./style.css";
-import { Navlinks } from "@/constants.jsx";
+import { Navlinks, UserMenuLinks } from "@/constants.jsx";
 import { useLocation, Link } from "react-router-dom"
-import { useSelector,useDispatch } from 'react-redux'
+import { useSelector, useDispatch } from 'react-redux'
 import { validUser } from "@/redux/user/"
 
 const Navbar = () => {
@@ -13,6 +13,7 @@ const Navbar = () => {
   const [CurrentPath, setCurrentPath] = useState(null)
   // check redux state
   const userState = useSelector((state) => state.user);
+
   const dispatch = useDispatch();
 
   // ones request server to check user valid or not 
@@ -21,7 +22,7 @@ const Navbar = () => {
       dispatch(validUser())
     }
   }, [])
-  
+
 
   let location = useLocation()
 
@@ -85,22 +86,17 @@ const Navbar = () => {
             id="user-dropdown"
           >
             <div className="px-4 py-3">
-              <span className="block text-sm text-gray-900 dark:text-white">Bonnie Green</span>
-              <span className="block text-sm text-gray-500 truncate dark:text-gray-400">name@gmail.com</span>
+              <span className="block text-sm text-gray-900 dark:text-white">{userState.userInfo.fullName}</span>
+              <span className="block text-sm text-gray-500 truncate dark:text-gray-400">{userState.userInfo.email}</span>
             </div>
             <ul className="py-2" aria-labelledby="user-menu-button">
-              <li>
-                <Link to="/" onClick={handleLinkClick} className="dropdown-menu-links">Dashboard</Link>
-              </li>
-              <li>
-                <Link to="/" onClick={handleLinkClick} className="dropdown-menu-links">Settings</Link>
-              </li>
-              <li>
-                <Link to="/" onClick={handleLinkClick} className="dropdown-menu-links">Earnings</Link>
-              </li>
-              <li>
-                <Link to="/sign_out" onClick={handleLinkClick} className="dropdown-menu-links">Sign out</Link>
-              </li>
+              {
+                UserMenuLinks.map(({ name, href }, index) => (
+                  <li key={index}>
+                    <Link to={href} className="dropdown-menu-links">{name}</Link>
+                  </li>
+                ))
+              }
             </ul>
           </div>
           <button
@@ -124,8 +120,6 @@ const Navbar = () => {
             Sign In
             <svg className="hidden w-3 h-3 ml-2 xl:inline" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 10"><path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M1 5h12m0 0L9 1m4 4L9 9"></path></svg>
           </Link>
-
-
         </div>
 
         <div className={`items-center justify-between ${isMobileMenuOpen ? '' : 'hidden'} w-full md:flex md:w-auto md:order-1`} id="navbar-user">
