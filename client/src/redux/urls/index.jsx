@@ -1,5 +1,5 @@
 import { createSlice } from '@reduxjs/toolkit';
-import { createUrl } from './urls.api';
+import { createUrl, getLinks } from './urls.api';
 
 export const urlSlice = createSlice({
     name: 'urlSlice',
@@ -7,14 +7,15 @@ export const urlSlice = createSlice({
         createUrl: {
             isLoading: false,
             isError: false
+        },
+        getLinks: {
+            isLoading: false,
+            isError: false,
+            links: []
         }
     },
     extraReducers: (builder) => {
-        // builder.addCase(validUser.fulfilled, (state, action) => {
-        //   state.isValidUser = action.payload.isValid;
-        // }).addCase(validUser.rejected, (state, action) => {
-        //   state.isValidUser = false;
-        // });
+        // crate url 
         builder.addCase(createUrl.pending, (state, action) => {
             state.createUrl.isLoading = true;
             state.createUrl.isError = false;
@@ -24,10 +25,22 @@ export const urlSlice = createSlice({
             state.createUrl.isLoading = false;
             state.createUrl.isError = true;
         })
-    }
 
+        // get links 
+        builder.addCase(getLinks.pending, (state, action) => {
+            state.getLinks.isLoading = true;
+            state.getLinks.isError = false;
+        }).addCase(getLinks.fulfilled, (state, action) => {
+            state.getLinks.isLoading = false;
+            state.getLinks.links = action.payload?.links;
+        }).addCase(getLinks.rejected, (state, action) => {
+            state.getLinks.isLoading = false;
+            state.getLinks.isError = true;
+            state.getLinks.links = [];
+        })
+    }
 });
 
 // export reducers 
 export default urlSlice.reducer
-export { createUrl }
+export { createUrl, getLinks }

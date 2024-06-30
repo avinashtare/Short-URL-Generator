@@ -21,4 +21,23 @@ let Navlinks = [
     }
 ]
 
-export { Navlinks }
+let UserMenuLinks = [
+    {
+        name: "Dashboard",
+        href: "/dashboard"
+    },
+    {
+        name: "Settings",
+        href: "/settings"
+    },
+    {
+        name: "Earnings",
+        href: "/earnings"
+    },
+    {
+        name: "Sign Out",
+        href: "/sign_out"
+    }
+]
+
+export { Navlinks, UserMenuLinks }
