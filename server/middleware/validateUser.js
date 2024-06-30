@@ -13,11 +13,11 @@ const validateUser = async (req, res, next) => {
     try {
         // get token from cookie or headers
         let token = req.headers?.token;
-        if(!token) token = req.cookies?.token
+        if (!token) token = req.cookies?.token
 
         // check token exsit or not
         if (!token) {
-            return generateJsonResponse(res, "error", "invalid user", {isValidUser: false}, true, 400);
+            return generateJsonResponse(res, "error", "invalid user", { isValidUser: false }, true, 400);
         }
 
         // fetch data from token 
@@ -25,7 +25,7 @@ const validateUser = async (req, res, next) => {
 
         // check jwt user id exist or not 
         if (!jwtResponseUserId) {
-            return generateJsonResponse(res, "error", "invalid user", {isValidUser: false}, true, 400);
+            return generateJsonResponse(res, "error", "invalid user", { isValidUser: false }, true, 400);
         }
 
         // check user is exist on server or no
@@ -33,15 +33,17 @@ const validateUser = async (req, res, next) => {
 
         // check jwt user id exist or not 
         if (!userExist) {
-            return generateJsonResponse(res, "error", "invalid user", {isValidUser: false}, true, 400);
+            return generateJsonResponse(res, "error", "invalid user", { isValidUser: false }, true, 400);
         }
 
         // set user id in request prams 
         req.userId = jwtResponseUserId;
 
         // check client checking user valid using params
-        if(req.url == "/is-valid-user"){
-            return generateJsonResponse(res,"success","valid is user",{isValidUser: true},false,200);
+        if (req.url == "/is-valid-user") {
+            const { full_name: fullName, email_address: email } = userExist.results[0];
+            const response = { isValidUser: true, fullName, email };
+            return generateJsonResponse(res, "success", "user is valid", response, false, 200);
         }
 
         // calling next function 
