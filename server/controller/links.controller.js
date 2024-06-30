@@ -1,4 +1,4 @@
-const { createNewLink, findLinkByOriginalURLByUserId, deleteLinkByUserId } = require("../database/tables/links.table");
+const { createNewLink, findLinkByOriginalURLByUserId, deleteLinkByUserId, findLinksByUserId } = require("../database/tables/links.table");
 const { generateJsonResponse } = require("../utils/generateResponse");
 const { isValidUrl, getShortedURL } = require("../utils/UrlHelper");
 require("dotenv").config()
@@ -55,11 +55,35 @@ const createShortLink = async (req, res) => {
     }
 }
 
+// get link
+const getShortLinks = async (req, res) => {
+    try {
+        // getting userid from middleware
+        const userId = req?.userId;
+
+        // get links From DB
+        let linksDB = await findLinksByUserId(userId);
+
+        // if link not fetched
+        if (!linksDB && linksDB?.results.length == 0) {
+            return generateJsonResponse(res, "null links", "links not found", { isLinks: false }, true, 400);
+        }
+
+        // send response to user 
+        const response = { isLinks: true, links: linksDB?.results }
+
+        // deleted successfull resoponse 
+        return generateJsonResponse(res, "success", "Link fetched successfully", response, false, 200);
+    } catch (error) {
+        return generateJsonResponse(res, "error", "An error occurred while processing the request", null, true, 500);
+    }
+}
+
 // handle delete link
 const deleteShortLink = async (req, res) => {
     try {
         let { deleteId } = req.body;
-        let userId = req?.userId
+        let userId = req?.userId;
 
         // validation for deleteId
         if (typeof (deleteId) != 'number') {
@@ -71,7 +95,7 @@ const deleteShortLink = async (req, res) => {
 
         // if link not created 
         if (!isLinkDeleted || isLinkDeleted?.results?.affectedRows != 1) {
-            return generateJsonResponse(res, "error", "link not found", null, true, 500);
+            return generateJsonResponse(res, "error", "link not found", null, true, 400);
         }
 
         // deleted successfull resoponse 
@@ -81,4 +105,4 @@ const deleteShortLink = async (req, res) => {
     }
 }
 
-module.exports = { createShortLink, deleteShortLink }
+module.exports = { createShortLink, deleteShortLink, getShortLinks }

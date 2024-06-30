@@ -33,7 +33,7 @@ const createNewLink = async ({ user_id, original_url, shorted_url, urlUniqId }) 
 }
 
 const findLinksByUserId = async (user_id) => {
-    const findLinkByUserIdQuery = `SELECT * FROM links WHERE user_id=${user_id};`;
+    const findLinkByUserIdQuery = `SELECT link_id,original_url,shorted_url,clicks_count,created_at FROM links WHERE user_id=${user_id};`;
 
     const is_link_exist = await db_query(findLinkByUserIdQuery);
 
