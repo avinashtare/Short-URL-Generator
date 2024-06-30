@@ -1,8 +1,10 @@
 import React, { useEffect, useRef, useState } from 'react'
 import { Link } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux'
+import { toast } from "react-toastify"
+import { getLinks, deleteLink as deleteLinkById, removeLink } from '@/redux/urls';
 import SingleLink from './SingleLink';
-import { getLinks } from '../../redux/urls';
+
 
 
 const LinksTable = () => {
@@ -14,10 +16,27 @@ const LinksTable = () => {
     useEffect(() => {
         if (LinksLoaded.current == false) {
             LinksLoaded.current = true;
-            console.log("welcome")
+
+            // when user comes show links
             dispatch(getLinks());
         }
     }, [LinksLoaded])
+
+    const deleteLink = async (linkId) => {
+        const deleteLink = await dispatch(deleteLinkById({ linkId: linkId }));
+        const isLinkDeleted = deleteLink.payload?.linkDeleted;
+        console.log(deleteLink,isLinkDeleted,linkId)
+        if (isLinkDeleted) {
+            // remove link from state
+            dispatch(removeLink(linkId));
+
+            toast.success("Link Deleted Successfully");
+        }
+        else {
+            toast.error("Falid to delete link");
+        }
+        return isLinkDeleted;
+    }
 
     return (
         <>
@@ -46,8 +65,9 @@ const LinksTable = () => {
                     <tbody>
                         {!linksState.isLoading ? linksState.links.map((data, index) =>
                             <SingleLink
-                                key={index}
+                                key={index+Math.random()}
                                 {...data}
+                                deleteLink={deleteLink}
                             />
                         ) : null}
                     </tbody>

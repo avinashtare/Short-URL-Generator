@@ -1,5 +1,5 @@
 import { createSlice } from '@reduxjs/toolkit';
-import { createUrl, getLinks } from './urls.api';
+import { createUrl, getLinks, deleteLink } from './urls.api';
 
 export const urlSlice = createSlice({
     name: 'urlSlice',
@@ -12,6 +12,12 @@ export const urlSlice = createSlice({
             isLoading: false,
             isError: false,
             links: []
+        }
+    },
+    reducers: {
+        removeLink: (state, action) => {
+            const linkId = action.payload;
+            state.getLinks.links = state.getLinks.links.filter(link => link.link_id != linkId);
         }
     },
     extraReducers: (builder) => {
@@ -38,9 +44,15 @@ export const urlSlice = createSlice({
             state.getLinks.isError = true;
             state.getLinks.links = [];
         })
+
+        // delete
+        builder.addCase(deleteLink.fulfilled, (state, action) => { });
     }
 });
 
 // export reducers 
 export default urlSlice.reducer
-export { createUrl, getLinks }
+export const { removeLink } = urlSlice.actions;
+
+
+export { createUrl, getLinks, deleteLink }

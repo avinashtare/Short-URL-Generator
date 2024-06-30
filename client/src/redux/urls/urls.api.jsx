@@ -61,3 +61,31 @@ export const getLinks = createAsyncThunk("getLinks", async () => {
         throw new Error();
     }
 })
+
+export const deleteLink = createAsyncThunk("deleteLink", async ({ linkId }) => {
+    let token = getCookie("token");
+
+    if (!token) {
+        return { isValid: false }
+    }
+    let deleteUrlResponse = await fetch(`${Server_Url}/links/delete-link`, {
+        method: "post",
+        headers: {
+            "Content-Type": "application/json",
+            "token": token,
+        },
+        body: JSON.stringify({ deleteId: linkId })
+    });
+
+    let deleteUrlResponseData = await deleteUrlResponse.json();
+
+    // first check user valid or not 
+    if (deleteUrlResponseData?.data?.isValidUser) return { isValid: false, linkDeleted: false }
+
+    if (deleteUrlResponseData.status == "success" && deleteUrlResponseData?.data?.linkId == linkId) {
+        return { linkDeleted: true }
+    }
+    else {
+        return { linkDeleted: false }
+    }
+})
