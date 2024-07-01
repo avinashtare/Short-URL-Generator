@@ -5,7 +5,7 @@ require("dotenv").config()
 
 // get SHORTCUT_URL from enoviroment variable 
 const SHORTCUT_URL_DOMAIN = process.env.SHORTCUT_URL_DOMAIN ?? "localhost";
-
+const ShortUrlLength = 6;
 
 // handle create link
 const createShortLink = async (req, res) => {
@@ -35,7 +35,7 @@ const createShortLink = async (req, res) => {
         }
 
         // create shortedUrl url string
-        const { shortedURL, uniqId } = getShortedURL(SHORTCUT_URL_DOMAIN, 12);
+        const { shortedURL, uniqId } = getShortedURL(SHORTCUT_URL_DOMAIN, ShortUrlLength);
 
         // finally create new link
         const storeLinkInDB = await createNewLink({ user_id: userId, original_url: url, shorted_url: shortedURL, urlUniqId: uniqId })

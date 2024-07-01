@@ -43,9 +43,9 @@ const generateUniqueId = (length = 12) => {
     return result;
 }
 
-const getShortedURL = (domain,length=12)=>{
+const getShortedURL = (domain,length=6)=>{
     const uniqId = generateUniqueId(length);
-    return {shortedURL: domain + "/" + "t/" + uniqId,uniqId};
+    return {shortedURL: domain + "/" + "l/" + uniqId,uniqId};
 }
 
 
