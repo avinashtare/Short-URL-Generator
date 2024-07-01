@@ -1,7 +1,7 @@
 
 [comment]: <> (into image)
 
-![Pckd](https://user-images.githubusercontent.com/48997634/157104510-21df472c-d0d9-4075-96f1-18aded5905a5.png)
+![Short URL Generator](https://storage.googleapis.com/replit/images/1719860043788_bcf6da04b8b0e20eb21d10199d1a79e7.png)
 
 # 🔗 Short URL Generator
 
