@@ -3,8 +3,7 @@ import Logo from "@/assets/logo.png";
 import "./style.css";
 import { Navlinks, UserMenuLinks } from "@/constants.jsx";
 import { useLocation, Link } from "react-router-dom"
-import { useSelector, useDispatch } from 'react-redux'
-import { validUser } from "@/redux/user/"
+import { useSelector } from 'react-redux'
 
 const Navbar = () => {
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
@@ -13,16 +12,6 @@ const Navbar = () => {
   const [CurrentPath, setCurrentPath] = useState(null)
   // check redux state
   const userState = useSelector((state) => state.user);
-
-  const dispatch = useDispatch();
-
-  // ones request server to check user valid or not 
-  useEffect(() => {
-    return () => {
-      dispatch(validUser())
-    }
-  }, [])
-
 
   let location = useLocation()
 
