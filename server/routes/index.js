@@ -10,6 +10,6 @@ router.use("/user", user);
 router.use("/links", links);
 
 // links redirect route
-router.use("/t", linksRedirect);
+router.use("/l", linksRedirect);
 
 module.exports = router

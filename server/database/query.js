@@ -6,6 +6,7 @@ const db_query = async (query) => {
     const connection = await Connect_To_DB()
     return new Promise((resolve, reject) => {
         try {
+            if(!connection) resolve(false);
             // Execute the query
             connection.query(query, function (error, results, fields) {
                 // // commit(save) changes
@@ -15,6 +16,7 @@ const db_query = async (query) => {
                 connection.end();
 
                 if (error) {
+                    console.log("SQL Query Error: ",error);
                     // Reject the promise in case of an error
                     resolve(false);
                 }
