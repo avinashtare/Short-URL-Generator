@@ -25,6 +25,7 @@ ENV SecretKey = "shuuuu...."
 
 # MYSQL Credentials
 ENV MYSQL_HOST = "localhost"
+ENV MYSQL_PORT = 3306
 ENV MYSQL_USER = "root"
 ENV MYSQL_PASSWORD = ""
 ENV MYSQL_DATABASE_NAME = "url_shorter"
