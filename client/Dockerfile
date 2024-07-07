@@ -18,9 +18,18 @@ COPY . .
 ENV SERVER_URL=http://localhost:5000
 ENV VITE_Server_URL=$SERVER_URL
 
+ENV PORT
+
 # Expose the port
-EXPOSE 5173
+EXPOSE $PORT
 
+# building react application
+RUN npm run build
 
-# Start the application
-CMD ["npm", "run", "dev","--","--host"]
+# jump to the serve directory
+WORKDIR /app/client/serve
+
+# Install the dependencies
+RUN npm install
+
+CMD ["npm", "start"]

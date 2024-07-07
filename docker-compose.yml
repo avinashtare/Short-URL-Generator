@@ -6,8 +6,9 @@ services:
       context: ./client
     container_name: client
     ports:
-      - "80:5173"
+      - "80:80"
     environment:
+      PORT: 80
       SERVER_URL: "http://localhost:5000"
 
   server:
