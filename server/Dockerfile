@@ -18,17 +18,17 @@ COPY . .
 ENV PORT=5000
 
 # YOUR SHORT DOMAIN NAME URL
-ENV SHORTCUT_URL_DOMAIN = "http://localhost:5000"
+ENV SHORTCUT_URL_DOMAIN="http://localhost:5000"
 
 #JWT Secure key
-ENV SecretKey = "shuuuu...."
+ENV SecretKey="shuuuu...."
 
 # MYSQL Credentials
-ENV MYSQL_HOST = "localhost"
-ENV MYSQL_PORT = 3306
-ENV MYSQL_USER = "root"
-ENV MYSQL_PASSWORD = ""
-ENV MYSQL_DATABASE_NAME = "url_shorter"
+ENV MYSQL_HOST="localhost"
+ENV MYSQL_PORT=3306
+ENV MYSQL_USER="root"
+ENV MYSQL_PASSWORD=""
+ENV MYSQL_DATABASE_NAME="url_shorter"
 
 # Expose the port
 EXPOSE $PORT

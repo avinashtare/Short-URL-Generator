@@ -18,7 +18,7 @@ COPY . .
 ENV SERVER_URL=http://localhost:5000
 ENV VITE_Server_URL=$SERVER_URL
 
-ENV PORT
+ENV PORT=3000
 
 # Expose the port
 EXPOSE $PORT
