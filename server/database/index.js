@@ -13,6 +13,11 @@ const check_db_connection = async () => {
     }
     else {
         console.log("Failed To Connected Database.");
+
+        // try to connect db after 10 second
+        setTimeout(() => {
+            check_db_connection()
+        }, 10000);
     }
 }
 
