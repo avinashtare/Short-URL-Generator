@@ -15,8 +15,7 @@ COPY . .
 
 
 # Set environment variables
-ENV SERVER_URL=http://localhost:5000
-ENV VITE_Server_URL=$SERVER_URL
+ENV VITE_Server_URL=http://localhost:5000
 
 ENV PORT=3000
 
